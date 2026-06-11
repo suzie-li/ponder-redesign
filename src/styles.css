@@ -89,6 +89,7 @@ button {
   height: 24px;
   object-fit: contain;
 }
+
 .desktop-nav {
   display: flex;
   grid-column: 2;
@@ -413,7 +414,6 @@ button {
   text-wrap: balance;
   overflow-wrap: break-word;
 }
-
 
 .hero-copy h1 span {
   display: inline-block;
@@ -1108,6 +1108,7 @@ button {
   margin: 0;
   color: var(--muted-light);
   font-size: .86rem;
+  line-height: 1.5;
   text-align: center;
 }
 
@@ -1222,9 +1223,6 @@ button {
 @keyframes marquee {
   to { transform: translate3d(-50%, 0, 0); }
 }
-
-
-
 
 @media (min-width: 901px) and (max-height: 1080px) {
   .hero-section {
@@ -1402,7 +1400,7 @@ button {
   .logo-trust p {
     margin-bottom: 16px;
     font-size: .72rem;
-    line-height: 1.25;
+    line-height: 1.5;
     padding-inline: 12px;
   }
 

@@ -53,6 +53,7 @@ const agentSteps = [
 ];
 
 const question = 'What are the key insights from this paper?';
+const DEMO_DESIGN_WIDTH = 672;
 
 type DemoStage = 'chat' | 'canvas' | 'full';
 
@@ -341,8 +342,6 @@ function CanvasScreen({
     </div>
   );
 }
-
-const DEMO_DESIGN_WIDTH = 672;
 
 function PonderDemoBlock() {
   const [stage, setStage] = useState<DemoStage>('chat');
