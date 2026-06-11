@@ -51,10 +51,17 @@ button {
   position: fixed;
   z-index: 50;
   inset: 0 0 auto;
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  backdrop-filter: none;
+  transition: background 280ms ease, border-color 280ms ease, backdrop-filter 280ms ease;
+  animation: nav-enter 760ms cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.site-header.is-scrolled {
   background: rgba(250, 249, 247, 0.78);
   border-bottom: 1px solid rgba(42, 38, 33, 0.055);
   backdrop-filter: blur(18px) saturate(1.08);
-  animation: nav-enter 760ms cubic-bezier(.22, 1, .36, 1) both;
 }
 
 .nav-inner {
@@ -299,7 +306,7 @@ button {
 .paper-grain {
   z-index: 0;
   inset: 0;
-  opacity: .04;
+  opacity: .075;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2621' fill-opacity='1'%3E%3Cpath d='M10 8h2v2h-2zM44 10h2v2h-2zM28 27h2v2h-2zM58 34h2v2h-2zM8 48h2v2H8zM38 56h2v2h-2zM16 32h1v1h-1zM52 20h1v1h-1z'/%3E%3C/g%3E%3C/svg%3E");
 }
@@ -398,7 +405,7 @@ button {
   margin: 0 auto;
   font-family: var(--serif);
   font-size: clamp(32px, 6.2vw, 5.4rem);
-  font-weight: 620;
+  font-weight: 600;
   line-height: 1.03;
   letter-spacing: -.045em;
   word-spacing: .04em;
@@ -427,7 +434,7 @@ button {
   max-width: 730px;
   margin: 24px auto 0;
   color: var(--muted);
-  font-size: clamp(16px, 1.55vw, 1.08rem);
+  font-size: clamp(14px, 1.55vw, 1.08rem);
   line-height: 1.62;
   letter-spacing: -.018em;
 }
@@ -437,7 +444,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 30px;
+  margin-top: 32px;
   flex-wrap: wrap;
 }
 
@@ -546,6 +553,16 @@ button {
   height: 90.4%;
   overflow: hidden;
   background: #fff;
+}
+
+.demo-stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 672px;
+  height: 340px;
+  transform: scale(var(--demo-content-scale, 1));
+  transform-origin: top left;
 }
 
 .chat-screen,
@@ -751,7 +768,7 @@ button {
 .app-topbar button.active {
   color: var(--foreground);
   background: var(--sand);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .app-topbar strong {
@@ -968,7 +985,7 @@ button {
   border-bottom: 1px solid rgba(42, 38, 33, .07);
   color: var(--foreground);
   font-size: .56rem;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1238,11 +1255,11 @@ button {
   }
 
   .hero-subtitle {
-    margin-top: 16px;
+    margin-top: 24px;
   }
 
   .hero-actions {
-    margin-top: 20px;
+    margin-top: 32px;
   }
 
   .demo-wrap {
@@ -1308,14 +1325,14 @@ button {
 
   .hero-subtitle {
     max-width: 620px;
-    margin-top: 14px;
-    font-size: clamp(16px, 2.8vw, 1rem);
+    margin-top: 24px;
+    font-size: clamp(14px, 2.8vw, 1rem);
     line-height: 1.5;
   }
 
   .hero-actions {
-    margin-top: 18px;
-    gap: 8px;
+    margin-top: 32px;
+    gap: 12px;
   }
 
   .primary-cta {
@@ -1417,14 +1434,14 @@ button {
   }
 
   .hero-subtitle {
-    margin-top: 10px;
-    font-size: 16px;
+    margin-top: 24px;
+    font-size: 14px;
     line-height: 1.46;
   }
 
   .hero-actions {
-    margin-top: 14px;
-    gap: 6px;
+    margin-top: 32px;
+    gap: 12px;
     flex-direction: column;
     flex-wrap: nowrap;
   }

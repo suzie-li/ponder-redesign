@@ -89,8 +89,21 @@ function PonderLogo() {
 }
 
 function PonderNav() {
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      el.classList.toggle('is-scrolled', window.scrollY > 12);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className="site-header" ref={headerRef}>
       <div className="nav-inner">
         <PonderLogo />
         <nav className="desktop-nav" aria-label="Primary navigation">
@@ -191,7 +204,8 @@ function LogoMarquee() {
             <img
               key={`${logo.src}-${index}`}
               src={logo.src}
-              alt={logo.alt}
+              alt={index < universityLogos.length ? logo.alt : ''}
+              aria-hidden={index >= universityLogos.length ? true : undefined}
               className={hoveredLogo === index ? 'is-hovered' : undefined}
               loading={index < universityLogos.length ? 'eager' : 'lazy'}
               decoding="async"
@@ -328,6 +342,8 @@ function CanvasScreen({
   );
 }
 
+const DEMO_DESIGN_WIDTH = 672;
+
 function PonderDemoBlock() {
   const [stage, setStage] = useState<DemoStage>('chat');
   const [fileVisible, setFileVisible] = useState(false);
@@ -336,6 +352,18 @@ function PonderDemoBlock() {
   const [cardsVisible, setCardsVisible] = useState(0);
   const [stepsVisible, setStepsVisible] = useState(0);
   const [showResponse, setShowResponse] = useState(false);
+  const shellRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = shellRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const scale = entry.contentRect.width / DEMO_DESIGN_WIDTH;
+      el.style.setProperty('--demo-content-scale', String(scale));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -392,7 +420,7 @@ function PonderDemoBlock() {
   }, []);
 
   return (
-    <div className="demo-shell" aria-label="Animated Ponder product demo">
+    <div className="demo-shell" ref={shellRef} role="img" aria-label="Animated Ponder product demo">
       <div className="browser-chrome" aria-hidden="true">
         <span className="traffic red" />
         <span className="traffic yellow" />
@@ -401,18 +429,20 @@ function PonderDemoBlock() {
           ponder.ing
         </div>
       </div>
-      <div className="demo-viewport">
-        {stage === 'chat' ? (
-          <ChatScreen fileVisible={fileVisible} typed={typed} />
-        ) : (
-          <CanvasScreen
-            stage={stage}
-            cardsVisible={cardsVisible}
-            topicVisible={topicVisible}
-            stepsVisible={stepsVisible}
-            showResponse={showResponse}
-          />
-        )}
+      <div className="demo-viewport" aria-hidden="true">
+        <div className="demo-stage">
+          {stage === 'chat' ? (
+            <ChatScreen fileVisible={fileVisible} typed={typed} />
+          ) : (
+            <CanvasScreen
+              stage={stage}
+              cardsVisible={cardsVisible}
+              topicVisible={topicVisible}
+              stepsVisible={stepsVisible}
+              showResponse={showResponse}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -437,16 +467,15 @@ function PonderHero() {
               <span>Happens</span>
             </h1>
             <p className="hero-subtitle">
-              Free your focus from fractured tabs. Gather your materials, think alongside AI,
-              and map your insights—all within a single, quiet canvas that turns fleeting
-              thoughts into structured knowledge.
+              Gather your materials, think alongside AI, and map your insights—all within a
+              single, quiet canvas that turns fleeting thoughts into structured knowledge.
             </p>
             <div className="hero-actions">
               <a className="primary-cta" href="#signup">
                 Start pondering
                 <ArrowIcon />
               </a>
-              <a className="secondary-cta" href="#features">Learn more</a>
+              <a className="secondary-cta" href="https://ponder.ing/blog/ponder-where-thinking-happens">Learn more</a>
             </div>
           </div>
 
