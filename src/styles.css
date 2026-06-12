@@ -387,7 +387,6 @@ button {
   transform: translate3d(0, var(--copy-y), 0) scale(var(--copy-scale));
   transform-origin: top center;
   will-change: opacity, transform;
-  animation: content-enter 850ms cubic-bezier(.22, 1, .36, 1) both 140ms;
 }
 
 .hero-copy::before {
@@ -413,6 +412,7 @@ button {
   white-space: normal;
   text-wrap: balance;
   overflow-wrap: break-word;
+  animation: rise-in 900ms cubic-bezier(.22, 1, .36, 1) both 120ms;
 }
 
 .hero-copy h1 span {
@@ -437,6 +437,7 @@ button {
   font-size: clamp(14px, 1.55vw, 1.08rem);
   line-height: 1.62;
   letter-spacing: -.018em;
+  animation: rise-in 850ms cubic-bezier(.22, 1, .36, 1) both 300ms;
 }
 
 .hero-actions {
@@ -446,6 +447,7 @@ button {
   gap: 12px;
   margin-top: 32px;
   flex-wrap: wrap;
+  animation: rise-in 850ms cubic-bezier(.22, 1, .36, 1) both 440ms;
 }
 
 .primary-cta {
@@ -488,7 +490,7 @@ button {
   transform: translate3d(0, var(--demo-y), 0) scale(var(--demo-scale));
   transform-origin: top center;
   will-change: transform, opacity;
-  animation: demo-enter 850ms cubic-bezier(.22, 1, .36, 1) both 520ms;
+  animation: demo-enter 1000ms cubic-bezier(.22, 1, .36, 1) both 620ms;
 }
 
 .demo-shell {
@@ -1113,6 +1115,7 @@ button {
   margin-top: 30px;
   opacity: var(--logos-opacity);
   transition: opacity 120ms linear;
+  animation: rise-in 900ms cubic-bezier(.22, 1, .36, 1) both 920ms;
 }
 
 .logo-trust p {
@@ -1197,18 +1200,16 @@ button {
 }
 
 @keyframes nav-enter {
-  from { opacity: 0; transform: translateY(-14px); }
-  to { opacity: 1; transform: none; }
+  from { opacity: 0; transform: translateY(-16px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
 }
 
-@keyframes content-enter {
-  from { opacity: 0; transform: translate3d(0, 26px, 0) scale(.98); }
-  to { opacity: var(--copy-opacity); transform: translate3d(0, var(--copy-y), 0) scale(var(--copy-scale)); }
+@keyframes rise-in {
+  from { opacity: 0; transform: translate3d(0, 26px, 0); filter: blur(7px); }
 }
 
 @keyframes demo-enter {
-  from { opacity: 0; transform: translate3d(0, 32px, 0) scale(.9); }
-  to { opacity: clamp(.72, calc(.72 + var(--hero-progress) * .42), 1); transform: translate3d(0, var(--demo-y), 0) scale(var(--demo-scale)); }
+  from { opacity: 0; transform: translate3d(0, 44px, 0) scale(.94); filter: blur(10px); }
 }
 
 @keyframes soft-screen-in {
