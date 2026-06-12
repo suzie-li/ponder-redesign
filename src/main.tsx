@@ -333,7 +333,6 @@ function CanvasScreen({
               <i />
               <p>• SOTA on EN–DE & EN–FR translation</p>
               <i className="short" />
-              <div>✦ Research Canvas — visualize into graphics</div>
             </div>
           </div>
           <div className="agent-input">Tell Ponder what to do or type @ to add files.<span /></div>
