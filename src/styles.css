@@ -270,9 +270,12 @@ button {
   --copy-opacity: clamp(0, calc(1 - (var(--hero-progress) - .28) * 4.8), 1);
   --copy-y: calc(var(--hero-progress) * -54px);
   --copy-scale: calc(1 - (var(--hero-progress) * .11));
+  --copy-blur: calc(clamp(0, calc(var(--hero-progress) - .15), .5) * 8px);
   --demo-y: calc(var(--hero-progress) * -30px);
   --demo-scale: clamp(.92, calc(.92 + (var(--hero-progress) * .24)), 1.16);
+  --demo-flat: clamp(0, calc(var(--hero-progress) * 2.6), 1);
   --logos-opacity: clamp(0, calc(1 - (var(--hero-progress) - .34) * 4.2), 1);
+  --bg-drift: calc(var(--hero-progress) * 28px);
 }
 
 .hero-sticky {
@@ -297,7 +300,8 @@ button {
 
 .warm-bg {
   z-index: 0;
-  inset: 0;
+  inset: -30px 0;
+  transform: translate3d(0, var(--bg-drift, 0px), 0);
   background:
     radial-gradient(circle at 78% 22%, rgba(232, 228, 221, .78), transparent 28%),
     radial-gradient(circle at 13% 75%, rgba(240, 237, 231, .95), transparent 28%),
@@ -306,7 +310,8 @@ button {
 
 .paper-grain {
   z-index: 0;
-  inset: 0;
+  inset: -30px 0;
+  transform: translate3d(0, var(--bg-drift, 0px), 0);
   opacity: .075;
   mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%232a2621' fill-opacity='1'%3E%3Cpath d='M10 8h2v2h-2zM44 10h2v2h-2zM28 27h2v2h-2zM58 34h2v2h-2zM8 48h2v2H8zM38 56h2v2h-2zM16 32h1v1h-1zM52 20h1v1h-1z'/%3E%3C/g%3E%3C/svg%3E");
@@ -332,6 +337,7 @@ button {
   height: 260px;
   top: 12%;
   right: 24px;
+  translate: calc(var(--mx, 0) * 18px) calc(var(--my, 0) * 12px + var(--hero-progress) * -40px);
   background: linear-gradient(135deg, rgba(232, 228, 221, .38), rgba(212, 205, 193, .16));
 }
 
@@ -340,6 +346,7 @@ button {
   height: 260px;
   left: 24px;
   bottom: 10%;
+  translate: calc(var(--mx, 0) * -14px) calc(var(--my, 0) * -10px + var(--hero-progress) * -64px);
   background: linear-gradient(45deg, rgba(240, 237, 231, .46), rgba(232, 228, 221, .18));
   animation-delay: -2.4s;
 }
@@ -349,6 +356,7 @@ button {
   inset: 0;
   z-index: 2;
   pointer-events: none;
+  transform: translate3d(calc(var(--mx, 0) * 10px), calc(var(--my, 0) * 8px + var(--hero-progress) * -90px), 0);
 }
 
 .floating-thoughts span {
@@ -386,7 +394,8 @@ button {
   opacity: var(--copy-opacity);
   transform: translate3d(0, var(--copy-y), 0) scale(var(--copy-scale));
   transform-origin: top center;
-  will-change: opacity, transform;
+  filter: blur(var(--copy-blur, 0px));
+  will-change: opacity, transform, filter;
 }
 
 .hero-copy::before {
@@ -489,6 +498,7 @@ button {
   opacity: clamp(.72, calc(.72 + var(--hero-progress) * .42), 1);
   transform: translate3d(0, var(--demo-y), 0) scale(var(--demo-scale));
   transform-origin: top center;
+  perspective: 1200px;
   will-change: transform, opacity;
   animation: demo-enter 1000ms cubic-bezier(.22, 1, .36, 1) both 620ms;
 }
@@ -506,6 +516,8 @@ button {
     0 8px 24px rgba(42, 38, 33, .08),
     0 40px 80px rgba(42, 38, 33, .12),
     0 1px 0 rgba(255,255,255,.8) inset;
+  transform: rotateX(calc((1 - var(--demo-flat, 1)) * 7deg)) rotateY(calc(var(--mx, 0) * 1.6deg));
+  transform-origin: center 80%;
   contain: layout paint style;
 }
 
@@ -594,7 +606,7 @@ button {
   margin: 0 0 16px;
   color: var(--foreground);
   font-size: .94rem;
-  font-weight: 700;
+  font-weight: 480;
   letter-spacing: -.025em;
   text-align: center;
 }
@@ -653,9 +665,10 @@ button {
 }
 
 .typed-line {
+  margin-top: 4px;
   min-height: 24px;
   color: var(--foreground);
-  font-size: .78rem;
+  font-size: .72rem;
   letter-spacing: -.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -793,7 +806,7 @@ button {
   transform: translateX(-50%);
   color: var(--foreground);
   font-size: .64rem;
-  font-weight: 600;
+  font-weight: 480;
   letter-spacing: -.01em;
 }
 
@@ -1005,7 +1018,7 @@ button {
   border-bottom: 1px solid rgba(42, 38, 33, .07);
   color: var(--foreground);
   font-size: .58rem;
-  font-weight: 600;
+  font-weight: 480;
   letter-spacing: -.01em;
   white-space: nowrap;
   overflow: hidden;
@@ -1246,6 +1259,8 @@ button {
     --demo-y: calc(var(--hero-progress) * -124px);
     --demo-scale: clamp(1, calc(1 + (var(--hero-progress) * .025)), 1.025);
     --logos-opacity: 1;
+    --copy-blur: 0px;
+    --bg-drift: 0px;
   }
 
   .hero-sticky {
@@ -1313,6 +1328,7 @@ button {
   .hero-section {
     --demo-y: calc(var(--hero-progress) * -52px);
     --demo-scale: clamp(.92, calc(.92 + (var(--hero-progress) * .16)), 1.08);
+    --bg-drift: calc(var(--hero-progress) * 16px);
   }
 
   .hero-sticky {
@@ -1536,5 +1552,20 @@ button {
   .logo-trust {
     opacity: 1;
     transform: none;
+  }
+
+  .hero-copy {
+    filter: none;
+  }
+
+  .warm-bg,
+  .paper-grain,
+  .floating-thoughts,
+  .demo-shell {
+    transform: none;
+  }
+
+  .orb {
+    translate: none;
   }
 }

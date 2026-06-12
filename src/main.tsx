@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useRef, useState } from 'react';
+import { StrictMode, useEffect, useRef, useState, type RefObject } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
@@ -171,6 +171,45 @@ function useHeroProgress<T extends HTMLElement>() {
   }, []);
 
   return ref;
+}
+
+function usePointerParallax(ref: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const node = ref.current;
+    if (!node) return;
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let frame = 0;
+    let targetX = 0;
+    let targetY = 0;
+    let x = 0;
+    let y = 0;
+
+    const tick = () => {
+      x += (targetX - x) * 0.08;
+      y += (targetY - y) * 0.08;
+      node.style.setProperty('--mx', x.toFixed(4));
+      node.style.setProperty('--my', y.toFixed(4));
+      if (Math.abs(targetX - x) > 0.001 || Math.abs(targetY - y) > 0.001) {
+        frame = window.requestAnimationFrame(tick);
+      } else {
+        frame = 0;
+      }
+    };
+
+    const onMove = (event: PointerEvent) => {
+      targetX = (event.clientX / window.innerWidth) * 2 - 1;
+      targetY = (event.clientY / window.innerHeight) * 2 - 1;
+      if (!frame) frame = window.requestAnimationFrame(tick);
+    };
+
+    window.addEventListener('pointermove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, [ref]);
 }
 
 function FloatingThoughts() {
@@ -448,6 +487,7 @@ function PonderDemoBlock() {
 
 function PonderHero() {
   const heroRef = useHeroProgress<HTMLElement>();
+  usePointerParallax(heroRef);
 
   return (
     <section id="top" ref={heroRef} className="hero-section">
